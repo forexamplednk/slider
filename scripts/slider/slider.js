@@ -20,6 +20,7 @@ let slider = function() {
   5. добавить событие "клик" элементам управления
   6. реализовать код для перелистывания слайдов /active
   7. добавить автовоспроизведение слайдов в режиме ожидания /auto
+  8. добавить функционал возвращения к первому слайду /
   */
   let auto = function(slider, buttonNext) {
     let sI;
@@ -41,8 +42,15 @@ let slider = function() {
 
   let prev = function(slide1, count) {
     let marginLeft = slide1.style.marginLeft;
-    if (!marginLeft) return;
-    else marginLeft = +marginLeft.match(/\d+/)[0];
+    marginLeft = +marginLeft.match(/\d+/);
+
+    if (marginLeft && marginLeft.length > 0) ml = ml[0];
+    //if (!marginLeft) return;  без перемотки к первому слайду
+    if (!marginLeft) {  //вариант с перемоткой
+      slide1.style.marginLeft = `-${(count * 100) - 100}%`;
+      return;
+    }
+    // else marginLeft = +marginLeft.match(/\d+/)[0]; 
     if (isNaN(marginLeft)) return;
     marginLeft -= 100;
     slide1.style.marginLeft = `-${marginLeft}%`;
@@ -54,7 +62,12 @@ let slider = function() {
     if(!marginLeft) slide1.style.marginLeft = '-100%';
     else marginLeft = +marginLeft.match(/\d+/)[0];
     if (isNaN(marginLeft)) return;
-    if ((count * 100) - 100 == marginLeft) return;
+    // if ((count * 100) - 100 == marginLeft) return;  вариант без возвращения к первому слайду
+     if ((count * 100) - 100 == marginLeft) {  //вариант с перемоткой к первому слайду
+      slide1.style.marginLeft = `0`;
+      return;
+     }
+
     marginLeft += 100;
     slide1.style.marginLeft = `-${marginLeft}%`;
   };
