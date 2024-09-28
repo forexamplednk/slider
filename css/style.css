@@ -46,6 +46,7 @@ body {
   justify-content: center;
 
   width: 100%;
+  transition: all .5s linear;
 }
 
 .slider__button {
