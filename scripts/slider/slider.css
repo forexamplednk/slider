@@ -1,0 +1,9 @@
+[data-slider] > ul {
+  display: flex;
+  overflow: hidden;
+}
+
+[data-slider] > ul > li {
+  flex: none;
+  width: 100%;
+}
