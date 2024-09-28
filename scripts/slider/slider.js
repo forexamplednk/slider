@@ -18,8 +18,27 @@ let slider = function() {
   3. определить количество элементов /count
   4. найти первый слайд /slide1
   5. добавить событие "клик" элементам управления
-  6. реализовать код для перелистывания слайдов
+  6. реализовать код для перелистывания слайдов /active
+  7. добавить автовоспроизведение слайдов в режиме ожидания /auto
   */
+  let auto = function(slider, buttonNext) {
+    let sI;
+
+    let run = function() {
+      sI = setInterval(function() {
+        buttonNext.click();
+      }, 3000);
+    }
+    run();
+   
+    slider.addEventListener('mouseenter', function() {
+      clearInterval(sI);
+    });
+    slider.addEventListener('mouseleave', function() {
+      run();
+    });
+  };
+
   let prev = function(slide1, count) {
     let marginLeft = slide1.style.marginLeft;
     if (!marginLeft) return;
@@ -27,7 +46,7 @@ let slider = function() {
     if (isNaN(marginLeft)) return;
     marginLeft -= 100;
     slide1.style.marginLeft = `-${marginLeft}%`;
-  }
+  };
   
   let next = function(slide1, count) {
     let marginLeft = slide1.style.marginLeft;
@@ -38,8 +57,8 @@ let slider = function() {
     if ((count * 100) - 100 == marginLeft) return;
     marginLeft += 100;
     slide1.style.marginLeft = `-${marginLeft}%`;
+  };
 
-  }
   let active = function(slider) {
     let slides = slider.querySelectorAll('ul > li');
     let buttons = slider.querySelectorAll('button');
@@ -60,11 +79,12 @@ let slider = function() {
     buttonNext.addEventListener('click', function() {
       next(slide1, count);
     });
-  }
+    auto(slider, buttonNext);
+  };
 
   let sliders = document.querySelectorAll('[data-slider]');
     sliders.forEach(function(slider) {
       active(slider);
-    })
+    });
   
 }
